@@ -1,0 +1,136 @@
+<ul class="site-nav list--inline {{ nav_alignment }}" id="SiteNav">
+  {% for link in linklists[section.settings.main_linklist].links %}
+    {%- assign child_list_handle = link.title | handleize -%}
+
+    {% comment %}
+      Check if third-level nav exists on each parent link.
+    {% endcomment %}
+    {%- assign three_level_nav = false -%}
+    {% if link.links != blank %}
+      {% if link.levels == 2 %}
+        {%- assign three_level_nav = true -%}
+      {% endif %}
+    {% endif %}
+
+    {% if link.links != blank %}
+      <li id="head-li{{ forloop.index }}" class=" site-nav--has-dropdown{% if three_level_nav %} site-nav--has-centered-dropdown{% endif %}{% if link.active %} site-nav--active{% endif %}" aria-haspopup="true" aria-controls="SiteNavLabel-{{ child_list_handle }}">
+        <a href="{{ link.url }}" class="site-nav__link site-nav__link--main"{% if link.active %} aria-current="page"{% endif %} aria-expanded="false">
+          {{ link.title }}
+        </a>
+
+        <div class="site-nav__dropdown{% if three_level_nav %} site-nav__dropdown--centered{% endif %}" id="SiteNavLabel-{{ child_list_handle }}">
+          {% if three_level_nav %}
+            <div class="site-nav__childlist">
+              <ul class="site-nav__childlist-grid">
+                {% if link.links != blank %}
+                  {% for childlink in link.links %}
+                    <li class="site-nav__childlist-item">
+                      <a href="{{ childlink.url }}" class="site-nav__link site-nav__child-link site-nav__child-link--parent"{% if childlink.active %} aria-current="page"{% endif %}>
+                        {{ childlink.title | escape }}
+                      </a>
+
+                      {% if childlink.links != blank %}
+                        <ul>
+                        {% for grandchildlink in childlink.links %}
+                          <li>
+                            <a href="{{ grandchildlink.url }}" class="site-nav__link site-nav__child-link"{% if grandchildlink.active %} aria-current="page"{% endif %}>
+                              {{ grandchildlink.title | escape }}
+                            </a>
+                          </li>
+                        {% endfor %}
+                        </ul>
+                      {% endif %}
+
+                    </li>
+                  {% endfor %}
+                {% endif %}
+                
+                {% if forloop.index == 1 %}
+                <li class="pic-li">
+                  <a class="" href="/collections/mens" >
+                  	<img src="https://cdn.shopify.com/s/files/1/0377/2037/files/bestsellers_300x.jpg?v=1516230609" width="100%">
+                  </a>
+                  <a class="a-li">BEST SELLING WATCHES</a>
+                </li>
+                <li class="pic-li">
+                  <a class="" href="/collections/mens" >
+                  	<img src="https://cdn.shopify.com/s/files/1/0377/2037/files/Sunniemennav_300x.jpg?v=1518634359" width="100%">
+                  </a>
+                  <a class="a-li">SUNGLASSES</a>
+                </li>
+                <li class="pic-li">
+                  <a class="" href="/collections/mens" >
+                  	<img src="https://cdn.shopify.com/s/files/1/0377/2037/files/monochromenav_300x.jpg?v=1519927557" width="100%">
+                  </a>
+                  <a class="a-li">NEW: THE MONOCHROME EDITION</a>
+                </li>
+                
+                {% elsif forloop.index == 2 %}
+                <li class="pic-li">
+                  <a class="" href="/collections/women" >
+                  	<img src="https://cdn.shopify.com/s/files/1/0377/2037/files/allwomenswatches_fb9c1c2d-93bc-4a93-850c-c0edbe9ecce5_300x.jpg?v=1518475515" width="100%">
+                  </a>
+                  <a class="a-li">BEST SELLING WATCHES</a>
+                </li>
+                <li class="pic-li">
+                  <a class="" href="/collections/women" >
+                  	<img src="https://cdn.shopify.com/s/files/1/0377/2037/files/Sunnienav_300x.jpg?v=1518634314" width="100%">
+                  </a>
+                  <a class="a-li">SUNGLASSES</a>
+                </li>
+                <li class="pic-li">
+                  <a class="" href="/collections/women" >
+                  	<img src="https://cdn.shopify.com/s/files/1/0377/2037/files/marblenav_300x.jpg?v=1519927594" width="100%">
+                  </a>
+                  <a class="a-li">NEW: MARBLE EDITION</a>
+                </li>
+                {% else %}
+                <li class="pic-li">
+                  <a class="" href="/collections/women" >
+                  	<img src="https://cdn.shopify.com/s/files/1/0377/2037/files/parisnav_300x.jpg?v=1520370670" width="100%">
+                  </a>
+                  <a class="a-li">WE'LL ALWAYS HAVE PARIS</a>
+                </li>
+                <li class="pic-li">
+                  <a class="" href="/collections/women" >
+                  	<img src="https://cdn.shopify.com/s/files/1/0377/2037/files/mononav_7d44849a-b026-4559-94e6-a40416c9891b_300x.jpg?v=1519927684" width="100%">
+                  </a>
+                  <a class="a-li">MONOCHROME EDITION</a>
+                </li>
+                <li class="pic-li">
+                  <a class="" href="/collections/women" >
+                  	<img src="https://cdn.shopify.com/s/files/1/0377/2037/files/marbnav_2f131cdb-9ddf-4ae7-9b53-be4f6e90bfef_300x.jpg?v=1519927653" width="100%">
+                  </a>
+                  <a class="a-li">MARBLE EDITION</a>
+                </li>
+                <li class="pic-li">
+                  <a class="" href="/collections/women" >
+                  	<img src="https://cdn.shopify.com/s/files/1/0377/2037/files/des4nav_300x.jpg?v=1518809739" width="100%">
+                  </a>
+                  <a class="a-li">DESTINATION EVERYWHERE VOL. IV</a>
+                </li>
+                {% endif %}
+                
+              </ul>
+            </div>
+
+          {% else %}
+            <ul>
+              {% for childlink in link.links %}
+                <li {% if childlink.active %}class="site-nav--active"{% endif %}>
+                  <a href="{{ childlink.url }}" class="site-nav__link site-nav__child-link{% if forloop.last %} site-nav__link--last{% endif %}"{% if childlink.active %} aria-current="page"{% endif %}>
+                    {{ childlink.title | escape }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+      </li>
+    {% else %}
+      <li{% if link.active %} class="site-nav--active"{% endif %}>
+        <a href="{{ link.url }}" class="site-nav__link site-nav__link--main"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
